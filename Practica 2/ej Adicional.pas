@@ -26,19 +26,19 @@ Se debe realizar el programa completo con sus declaraciones de tipo.
 program untitled;
 uses SysUtils;
 const cantDetalles = 500;
-const valorAlto='9999';
+const valorAlto=9999;
 type
-str4=string[4];
+
 tVotoLoc=record
-	prov:str4;
-	loc:str4;
+	prov:integer;
+	loc:integer;
 	validos:integer;
 	blancos:integer;
 	anulados:integer;
 	end;
 	
 tVotoProv=record
-	prov:str4;
+	prov:integer;
 	nombreProv:string[10];
 	validos:integer;
 	blancos:integer;
@@ -99,13 +99,13 @@ end;
 
 
 var 
-regMae:tVotoProv;
-provAct:str4;
+regMae,auxMae:tVotoProv;
+
 detalles :atDetalles;
 datos:atDatos;
 maestro:tMaestro;
 min:tVotoLoc;
-validosP,anuladosP,blancosP,validosT,anuladosT,blancosT:integer;
+validosT,anuladosT,blancosT:integer;
 texto:TEXT;
 
 BEGIN
@@ -119,28 +119,29 @@ blancosT:=0;
 anuladosT:=0;
 while (min.prov<>valorALto) do
 begin
-	validosP:=0;
-	blancosP:=0;
-	anuladosP:=0;
-	provAct:=min.prov;
-	while (min.prov=provAct) do
+	auxMae.validos:=0;
+	auxMae.blancos:=0;
+	auxMae.anulados:=0;
+	auxMae.prov:=min.prov;
+	while (min.prov=auxMae.prov) do
 	begin
-		validosP:=validosP+min.validos;
-		blancosP:=blancosP+min.blancos;
-		anuladosP:=anuladosP+min.anulados;
+		auxMae.validos:=auxMae.validos+min.validos;
+		auxMae.blancos:=auxMae.blancos+min.blancos;
+		auxMae.anulados:=auxMae.anulados+min.anulados;
+		minimo(detalles,datos,min);
 	end;
 	//aca cambio la provincia
-	while(regMae.prov<>provAct) do
+	while(regMae.prov<>auxMae.prov) do
 		read(maestro,regMae);
-	regMae.validos:=regMae.validos+regMae.validos;
-	regMae.blancos:=regMae.blancos+regMae.blancos;
-	regMae.anulados:=regMae.anulados+regMae.anulados;
+	regMae.validos:=auxMae.validos+regMae.validos;
+	regMae.blancos:=auxMae.blancos+regMae.blancos;
+	regMae.anulados:=auxMae.anulados+regMae.anulados;
 	seek(maestro,filepos(maestro)-1);
 	write(maestro,regMae);
 	//maestro actualizado
-	validosT:=validosT+validosP;
-	blancosT:=blancosT+blancosP;
-	anuladosT:=anuladosT+anuladosP;
+	validosT:=validosT+auxMae.validos;
+	blancosT:=blancosT+auxMae.blancos;
+	anuladosT:=anuladosT+auxMae.anulados;
 	
 end;
 cerrarDetalles(detalles);
