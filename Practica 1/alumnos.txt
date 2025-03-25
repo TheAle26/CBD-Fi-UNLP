@@ -1,0 +1,12 @@
+40234567 12345 2 20030512 Juan
+Pérez
+Calle Falsa 123
+37890123 54321 3 20020708 María
+Gómez
+Av. Siempreviva 742
+41567890 67890 1 20040623 Carlos
+Rodríguez
+San Martín 456
+38901234 330 5 20010430 Laura
+Fernández
+Mitre 789
